@@ -41,9 +41,20 @@ const Header = () => {
             <DropdownMenuSeparator />
             {categoryList.map((category, index) => {
               return (
-                <DropdownMenuItem key={index}>
-                  <Image src={category?.icon[0]?.formats?.small?.url} alt="icon" width={20} height={20} />
-                  <h2>{category.name}</h2>
+                <DropdownMenuItem
+                  key={index}
+                  className="flex gap-4 items-center cursor-pointer"
+                >
+                  <Image
+                    src={
+                      process.env.NEXT_PUBLIC_BACKEND_BASE_URL +
+                      category?.icon[0]?.formats?.small?.url
+                    }
+                    alt="icon"
+                    width={30}
+                    height={30}
+                  />
+                  <h2 className="text-lg">{category.name}</h2>
                 </DropdownMenuItem>
               );
             })}
