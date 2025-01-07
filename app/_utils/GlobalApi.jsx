@@ -12,4 +12,10 @@ const getSliders = () =>
     return res.data.data;
   });
 
-export default { getCategory, getSliders };
+  const getCategoryList = () =>
+  axiosClient.get("/categories?populate=*").then((res) => {
+    console.log("CategoryList--->Resp", res.data.data);
+    return res.data.data;
+  });
+
+export default { getCategory, getSliders, getCategoryList };
