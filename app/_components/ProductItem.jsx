@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 
 const ProductItem = ({ product }) => {
   return (
-    <div className="md:p-6 p-2 flex flex-col gap-3 items-center justify-center border rounded-lg">
+    <div className="md:p-6 p-2 flex flex-col gap-3 items-center justify-center border rounded-lg hover:scale-105 hover:shadow-lg transition-all ease-in-out duration-300 cursor-pointer">
       <Image
         src={process.env.NEXT_PUBLIC_BACKEND_BASE_URL + product.images[0]?.url}
         alt={product.name}
