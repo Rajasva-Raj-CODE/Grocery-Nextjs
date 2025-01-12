@@ -12,6 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import GlobalApi from "../_utils/GlobalApi";
+import Link from "next/link";
 
 const Header = () => {
   const [categoryList, setCategoryList] = useState([]);
@@ -40,7 +41,7 @@ const Header = () => {
             <DropdownMenuLabel>Browse Categories</DropdownMenuLabel>
             <DropdownMenuSeparator />
             {categoryList.map((category, index) => {
-              return (
+              <Link href={"/products-category/" + category.name}>
                 <DropdownMenuItem
                   key={index}
                   className="flex gap-4 items-center cursor-pointer"
@@ -56,7 +57,7 @@ const Header = () => {
                   />
                   <h2 className="text-lg">{category.name}</h2>
                 </DropdownMenuItem>
-              );
+              </Link>
             })}
           </DropdownMenuContent>
         </DropdownMenu>

@@ -14,7 +14,7 @@ const ProductCategory = async ({ params }) => {
       <h2 className="p-4 bg-primary text-white font-bold text-3xl text-center">
         {params.categoryName}
       </h2>
-      <TopCategoryList categoryList={categoryList} />
+      <TopCategoryList categoryList={categoryList}  selectedCategory={params.categoryName} />
       <div className="p-5 md:p-10">
       <ProductLIst ProductsList={productList} />
       </div>
