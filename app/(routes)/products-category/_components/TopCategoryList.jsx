@@ -1,14 +1,17 @@
 import React from 'react'
+import Link from 'next/link'
+import Image from 'next/image'
+
 
 const TopCategoryList = ({ categoryList }) => {
   return (
-    <div className="grid grid-cols-3 md:grid-cols-6 sm:grid-cols-4 lg:grid-cols-7 gap-5 mt-2">
+    <div className=" flex gap-5 mt-2 overflow-auto mx-7 md:mx-20 justify-center">
     {categoryList.map((category, index) => (
       <Link
         href={"/products-category/" + category.name}
         key={index}
-        className="flex flex-col bg-green-50 gap-2 items-center p-3 rounded-lg group cursor-pointer hover:bg-green-600
-         "
+        className="flex flex-col bg-green-50 gap-2 items-center p-3 rounded-lg group cursor-pointer hover:bg-green-600 *
+        w-[150px] min-w-[100px]"
       >
         <Image
           src={
