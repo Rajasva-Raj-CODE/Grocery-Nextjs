@@ -31,7 +31,7 @@ const getProductsByCategory = (category) =>
     return res.data.data;
   });
 
-  const 
+  
 
 export default {
   getCategory,
