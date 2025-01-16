@@ -25,13 +25,18 @@ const getAllProducts = () =>
   });
 
 const getProductsByCategory = (category) =>
-  axiosClient.get(
-    "products?filters[categories][name][$in]=" + category + "&populate=*"
-  ).then((res) => {
-    return res.data.data;
-  });
+  axiosClient
+    .get("products?filters[categories][name][$in]=" + category + "&populate=*")
+    .then((res) => {
+      return res.data.data;
+    });
 
-  
+const registerUser = (userName, email, password) =>
+  axiosClient.post("/auth/local/register", {
+    email: email,
+    password: password, 
+    username: userName,
+  });
 
 export default {
   getCategory,
@@ -39,4 +44,5 @@ export default {
   getCategoryList,
   getAllProducts,
   getProductsByCategory,
+  registerUser,
 };

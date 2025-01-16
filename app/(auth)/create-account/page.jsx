@@ -4,13 +4,26 @@ import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import GlobalApi from "@/app/_utils/GlobalApi";
+import { useRouter } from "next/navigation";
 
 const CreateAccount = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [Username, setUsername] = useState("");
+  const router = useRouter();
 
-  const onCreateAccount = () => {};
+  const onCreateAccount = () => {
+    GlobalApi.registerUser(Username, email, password).then((res) => {
+      console.log(res.data.user);
+      console.log(res.data.jwt);
+      sessionStorage.setItem('user',JSON.stringify(user));
+      sessionStorage.setItem('jwt',res.data.jwt);
+      router.push('/')
+    }, (err) => {
+      console.log(err);
+    });
+  };
 
   return (
     <div className="flex items-baseline justify-center my-10">
@@ -37,7 +50,12 @@ const CreateAccount = () => {
             placeholder="Password"
             onChange={(e) => setPassword(e.target.value)}
           />
-          <Button onClick={() => onCreateAccount()}>Create Account</Button>
+          <Button
+            onClick={() => onCreateAccount()}
+            disabled={!(email || password || Username)}
+          >
+            Create Account
+          </Button>
           <p>
             Already have an account?{" "}
             <Link href="/sign-in" className="text-blue-500">
