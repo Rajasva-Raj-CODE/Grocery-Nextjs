@@ -1,6 +1,7 @@
 import { Outfit, Outfit } from "next/font/google";
 import "./globals.css";
 import Header from "./_components/Header";
+import { Toaster } from "@/components/ui/sonner";
 
 const outfit = Outfit({
   variable: "--font-geist-mono",
@@ -18,6 +19,7 @@ export default function RootLayout({ children }) {
       <body className={outfit.className}>
         <Header />
         {children}
+        <Toaster />
         </body>
     </html>
   );

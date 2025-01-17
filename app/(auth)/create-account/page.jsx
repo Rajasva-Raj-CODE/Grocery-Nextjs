@@ -1,11 +1,12 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import GlobalApi from "@/app/_utils/GlobalApi";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const CreateAccount = () => {
   const [email, setEmail] = useState("");
@@ -13,16 +14,28 @@ const CreateAccount = () => {
   const [Username, setUsername] = useState("");
   const router = useRouter();
 
+   useEffect(() => {
+      const jwt = sessionStorage.getItem("jwt");
+      if (jwt) {
+        router.push("/");
+      }
+    }, []);
+
   const onCreateAccount = () => {
-    GlobalApi.registerUser(Username, email, password).then((res) => {
-      console.log(res.data.user);
-      console.log(res.data.jwt);
-      sessionStorage.setItem('user',JSON.stringify(user));
-      sessionStorage.setItem('jwt',res.data.jwt);
-      router.push('/')
-    }, (err) => {
-      console.log(err);
-    });
+    GlobalApi.registerUser(Username, email, password).then(
+      (res) => {
+        console.log(res.data.user);
+        console.log(res.data.jwt);
+        sessionStorage.setItem("user", JSON.stringify(res.data.user));
+        sessionStorage.setItem("jwt", res.data.jwt);
+        router.push("/");
+        toast("Account created Successfully");
+
+      },
+      (err) => {
+        toast("Error while creating account");
+      }
+    );
   };
 
   return (
