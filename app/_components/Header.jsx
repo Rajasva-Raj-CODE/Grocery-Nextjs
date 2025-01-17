@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { LayoutGrid, Search, ShoppingBag } from "lucide-react";
+import { CircleUserRound, LayoutGrid, Search, ShoppingBag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -13,9 +13,13 @@ import {
 } from "@/components/ui/dropdown-menu";
 import GlobalApi from "../_utils/GlobalApi";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const Header = () => {
   const [categoryList, setCategoryList] = useState([]);
+  const isLogin = sessionStorage.getItem("jwt") ? true : false;
+  const router = useRouter()
+
   useEffect(() => {
     getCategoryList();
   }, []);
@@ -26,6 +30,11 @@ const Header = () => {
       setCategoryList(res.data.data);
     });
   };
+
+  const onSignOut=()=>{
+  sessionStorage.clear()
+  router.push('/sign-in')
+  }
   return (
     <div className="p-5 shadow-sm flex justify-between">
       <div className="flex items-center gap-8">
@@ -41,7 +50,7 @@ const Header = () => {
             <DropdownMenuLabel>Browse Categories</DropdownMenuLabel>
             <DropdownMenuSeparator />
             {categoryList.map((category, index) => {
-              <Link href={"/products-category/" + category.name}>
+              <Link key={index} href={"/products-category/" + category.name}>
                 <DropdownMenuItem
                   key={index}
                   className="flex gap-4 items-center cursor-pointer"
@@ -57,7 +66,7 @@ const Header = () => {
                   />
                   <h2 className="text-lg">{category.name}</h2>
                 </DropdownMenuItem>
-              </Link>
+              </Link>;
             })}
           </DropdownMenuContent>
         </DropdownMenu>
@@ -72,7 +81,24 @@ const Header = () => {
           {" "}
           <ShoppingBag /> 0
         </h2>
-        <Button>Login</Button>
+        {!isLogin ? (
+          <Link href="/sign-in">
+            <Button>Login</Button>
+          </Link>
+        ) : (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <CircleUserRound className=" cursor-pointer  h-10 w-10 p-2 rounded-full bg-green-200 text-primary" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>Profile</DropdownMenuItem>
+              <DropdownMenuItem>My Orders</DropdownMenuItem>
+              <DropdownMenuItem onClick={()=>onSignOut()}>Logout</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )}
       </div>
     </div>
   );

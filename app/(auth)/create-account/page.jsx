@@ -39,7 +39,7 @@ const CreateAccount = () => {
   };
 
   return (
-    <div className="flex items-baseline justify-center my-10">
+    <div className="flex items-baseline justify-center my-20">
       <div className="flex flex-col items-center justify-center gap-5 p-10 bg-slate-200  border-gray-200">
         <Image src="/logo.png" alt="logo" width={200} height={200} />
         <h2 className="font-bold text-3xl">Create Account</h2>
