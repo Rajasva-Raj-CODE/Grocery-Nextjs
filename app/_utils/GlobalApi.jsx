@@ -34,14 +34,22 @@ const getProductsByCategory = (category) =>
 const registerUser = (userName, email, password) =>
   axiosClient.post("/auth/local/register", {
     email: email,
-    password: password, 
+    password: password,
     username: userName,
   });
 
-  const SignIn=(email,password)=>axiosClient.post("/auth/local",{
-    identifier:email,
-    password:password
-  })
+const SignIn = (email, password) =>
+  axiosClient.post("/auth/local", {
+    identifier: email,
+    password: password,
+  });
+
+const addToCart = (data, jwt) =>
+  axiosClient.post("/user-carts", data, {
+    headers: {
+      Authorization: "Bearer" + jwt,
+    },
+  });
 
 export default {
   getCategory,
@@ -51,4 +59,5 @@ export default {
   getProductsByCategory,
   registerUser,
   SignIn,
+  addToCart,
 };

@@ -2,13 +2,48 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
+import GlobalApi from "../_utils/GlobalApi";
+import { toast } from "sonner";
 
 const ProductItemDetail = ({ product }) => {
+  const jwt = sessionStorage.getItem("jwt");
+  const user = JSON.parse(sessionStorage.getItem("user"));
+
   const [productTotalPrice, setProductTotalPrice] = useState(
     product.sellingPrice ? product.sellingPrice : product.mrp
   );
 
   const [quantity, setQuantity] = useState(1);
+  const router = useRouter();
+
+  const addToCart = () => {
+    if (!jwt) {
+      router.push("/sign-in");
+      return;
+    }
+
+    const data = {
+      data: {  
+        quantity: quantity,
+        amount: (quantity * productTotalPrice).toFixed(2),
+        products: product.id,
+        users_permissions_users: user.id,
+      },
+    };
+
+    console.log(data);
+
+    GlobalApi.addToCart(data, jwt).then(
+      (res) => {
+        console.log("addToCart--->Res", res);
+        toast("Added to Cart");
+      },
+      (err) => {
+        toast("Error" + err.response?.data?.error?.message);
+      }
+    );
+  };
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 p-7 bg-white text-black">
@@ -57,7 +92,7 @@ const ProductItemDetail = ({ product }) => {
               = ${quantity * productTotalPrice}
             </h2>
           </div>
-          <Button className="flex gap-3 ">
+          <Button className="flex gap-3 " onClick={() => addToCart()}>
             <Image
               src="/grocery-cart.png"
               alt="ShoopingCartIcon"
